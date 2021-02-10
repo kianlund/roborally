@@ -44,4 +44,57 @@ class GameControllerTest {
         Assertions.assertEquals(player, board.getSpace(0, 4).getPlayer(), "Player " + player.getName() + " should beSpace (0,4)!");
     }
 
+    @Test
+    void moveCurrentPlayerToSpace() {
+        Board board = gameController.board;;
+        Player player1 = board.getPlayer(0);
+        Player player2 = board.getPlayer(1);
+
+        gameController.moveCurrentPlayerToSpace((board.getSpace(0, 4)));
+
+        Assertions.assertEquals(player1, board.getSpace(0, 4).getPlayer());
+        Assertions.assertNull(board.getSpace(0, 0).getPlayer());
+        Assertions.assertEquals(player2, board.getCurrentPlayer());
+    }
+
+
+    @Test
+    void startProgrammingPhase() {
+    }
+
+    @Test
+    void finishProgrammingPhase() {
+    }
+
+    @Test
+    void executePrograms() {
+    }
+
+    @Test
+    void executeStep() {
+    }
+
+    @Test
+    void moveForward() {
+    }
+
+    @Test
+    void fastForward() {
+    }
+
+    @Test
+    void turnRight() {
+    }
+
+    @Test
+    void turnLeft() {
+    }
+
+    @Test
+    void moveCards() {
+    }
+
+    @Test
+    void notImplememted() {
+    }
 }
