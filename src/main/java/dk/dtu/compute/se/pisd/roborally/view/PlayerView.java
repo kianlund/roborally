@@ -207,7 +207,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
                     /*
                     Button optionButton = new Button("Option1");
-                    optionButton.setOnAction( e -> gameController.notImplememted());
+                    optionButton.setOnAction( e -> gameController.turn left());
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
 

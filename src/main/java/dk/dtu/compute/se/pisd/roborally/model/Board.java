@@ -68,6 +68,7 @@ public class Board extends Subject {
             for(int y = 0; y < height; y++) {
                 Space space = new Space(this, x, y);
                 spaces[x][y] = space;
+
             }
         }
         this.stepMode = false;

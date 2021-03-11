@@ -202,7 +202,6 @@ public class GameController {
                     startProgrammingPhase();
                 }
             }
-
         }
     }
     // XXX: V2
@@ -230,19 +229,48 @@ public class GameController {
             }
         }
     }
+    class ImpossibleMoveException extends Exception {
+        private Player player;
+        private Space space;
+        private Heading heading;
 
+        public ImpossibleMoveException(Player player, Space space, Heading heading) {
+            super ("move impossible");
+            this.player = player;
+            this.space = space;
+            this.heading = heading;
+        }
+    }
+    public void moveToSpace (@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
+        Player other = space.getPlayer();
+        if (other != null){
+            Space target = board.getNeighbour(space, heading);
+            if (target != null) {
+                moveToSpace(other, target, heading);
+            }else {
+                throw new ImpossibleMoveException(player, space, heading);
+            }
+        }
+        player.setSpace(space);
+    }
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
-        Space current = player.getSpace();
-        if (current !=null && player.board == current.board) {
-            Space target = board.getNeighbour(current, player.getHeading());
-            if (target != null && target.getPlayer() == null) {
-                player.setSpace(target);
+        if (player.board == board) {
+            Space space = player.getSpace();
+            Heading heading = player.getHeading();
+            Space target = board.getNeighbour(space, heading);
+
+
+            if (target != null) {
+                try {
+                    moveToSpace(player, target, heading);
+                } catch (ImpossibleMoveException e) {
+                }
             }
-
         }
-
     }
+
+
 
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
@@ -268,9 +296,7 @@ public class GameController {
                     player.setHeading(Heading.SOUTH);
                     break;
             }
-
         }
-
     }
 
     // TODO Assignment V2
