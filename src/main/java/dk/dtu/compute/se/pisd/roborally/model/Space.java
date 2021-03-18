@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import java.util.ArrayList;
@@ -85,6 +86,10 @@ public class Space extends Subject {
 
     public List<FieldAction> getActions() {
         return actions;
+    }
+    public void setActions(FieldAction action)
+    {
+        actions.add(0,action);
     }
 
 }

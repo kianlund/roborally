@@ -22,6 +22,8 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -32,6 +34,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Field;
 
 /**
  * ...
@@ -73,7 +77,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     private void updatePlayer() {
-        this.getChildren().clear();
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -91,9 +94,28 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    private void updateFieldAction() {
+        this.getChildren().clear();
+
+        FieldAction fieldaction = space.getActions().get(0);
+        if (fieldaction != null) {
+            Polygon arrow = new Polygon(0.0, 0.0,
+                    20.0, 40.0,
+                    40.0, 0.0 );
+            arrow.setFill(Color.GREY);
+
+            if (fieldaction instanceof ConveyorBelt) {
+                arrow.setRotate((90*((ConveyorBelt) fieldaction).getHeading().ordinal())%360);
+            }
+
+            this.getChildren().add(arrow);
+        }
+    }
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
+            updateFieldAction();
             updatePlayer();
         }
     }

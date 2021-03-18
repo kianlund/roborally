@@ -168,6 +168,7 @@ public class GameController {
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
+                        executeFieldActions();
                         startProgrammingPhase();
                     }
                 }
@@ -229,6 +230,13 @@ public class GameController {
             }
         }
     }
+
+    public void executeFieldActions() {
+//        for (int i = 0; i < board.getPlayersNumber(); i++) {
+//            board.getPlayer(i).getSpace().getActions().get(0).doAction(this,board.getPlayer(i).getSpace());
+//        }
+    }
+
     class ImpossibleMoveException extends Exception {
         private Player player;
         private Space space;
@@ -253,6 +261,7 @@ public class GameController {
         }
         player.setSpace(space);
     }
+
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
