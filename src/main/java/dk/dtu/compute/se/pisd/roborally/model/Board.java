@@ -76,11 +76,17 @@ public class Board extends Subject {
         this.stepMode = false;
 
 
-        ConveyorBelt ConveyorBelt = new ConveyorBelt();
+        ConveyorBelt ConveyorBelt1 = new ConveyorBelt();
+        ConveyorBelt ConveyorBelt2 = new ConveyorBelt();
+        ConveyorBelt ConveyorBelt3 = new ConveyorBelt();
         // TESTING AREA
         // TESTING AREA
-        ConveyorBelt.setHeading(Heading.NORTH);
-        getSpace(1,1).setActions(ConveyorBelt);
+        ConveyorBelt1.setHeading(Heading.SOUTH);
+        ConveyorBelt2.setHeading(Heading.SOUTH);
+        ConveyorBelt3.setHeading(Heading.SOUTH);
+        getSpace(0,0).setActions(ConveyorBelt1);
+        getSpace(0,1).setActions(ConveyorBelt2);
+        getSpace(0,2).setActions(ConveyorBelt3);
         // TESTING AREA
         // TESTING AREA
         

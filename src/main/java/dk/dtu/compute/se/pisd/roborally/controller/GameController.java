@@ -232,9 +232,12 @@ public class GameController {
     }
 
     public void executeFieldActions() {
-//        for (int i = 0; i < board.getPlayersNumber(); i++) {
-//            board.getPlayer(i).getSpace().getActions().get(0).doAction(this,board.getPlayer(i).getSpace());
-//        }
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            FieldAction fieldAction = board.getPlayer(i).getSpace().getActions().get(0);
+            if (fieldAction != null) {
+                fieldAction.doAction(this,board.getPlayer(i).getSpace());
+            }
+        }
     }
 
     class ImpossibleMoveException extends Exception {
@@ -254,6 +257,19 @@ public class GameController {
         if (other != null){
             Space target = board.getNeighbour(space, heading);
             if (target != null) {
+                moveToSpace(other, target, heading);
+            }else {
+                throw new ImpossibleMoveException(player, space, heading);
+            }
+        }
+        player.setSpace(space);
+    }
+
+    public void conveyorBeltMove (@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
+        Player other = space.getPlayer();
+        if (other != null){
+            Space target = board.getNeighbour(space, heading);
+            if (target != null && target.getPlayer() == null) {
                 moveToSpace(other, target, heading);
             }else {
                 throw new ImpossibleMoveException(player, space, heading);
