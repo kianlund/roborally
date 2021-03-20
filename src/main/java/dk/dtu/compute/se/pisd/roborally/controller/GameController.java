@@ -233,7 +233,7 @@ public class GameController {
 
 
     /**
-     *
+     * Tjekker pt. kun spaces som spillerne står på.
      */
 
     public void executeFieldActions() {
@@ -263,19 +263,6 @@ public class GameController {
             Space target = board.getNeighbour(space, heading);
             if (target != null) {
                 moveToSpace(other, target, heading);
-            }else {
-                throw new ImpossibleMoveException(player, space, heading);
-            }
-        }
-        player.setSpace(space);
-    }
-
-    public void conveyorBeltMove (@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
-        Player other = space.getPlayer();
-        if (other != null){
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                conveyorBeltMove(other, target, heading);
             }else {
                 throw new ImpossibleMoveException(player, space, heading);
             }

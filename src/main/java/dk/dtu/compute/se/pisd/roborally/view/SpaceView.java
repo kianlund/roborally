@@ -80,7 +80,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         Player player = space.getPlayer();
         if (player != null) {
-            Polygon arrow = new Polygon(0.0, 0.0,
+            Polygon arrow = new Polygon(
+                    0.0, 0.0,
                     10.0, 20.0,
                     20.0, 0.0 );
             try {
@@ -94,10 +95,14 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    /**
+     * space.getActions().get(0) henter bare den første og ENESTE action der er i fieldactions/conveybelts arraylist.
+     */
     private void updateFieldAction() {
         FieldAction fieldaction = space.getActions().get(0);
         if (fieldaction instanceof ConveyorBelt) {
-            Polygon arrow = new Polygon(0.0, 0.0,
+            Polygon arrow = new Polygon(
+                    0.0, 0.0,
                     20.0, 40.0,
                     40.0, 0.0 );
             arrow.setFill(Color.GREY);
