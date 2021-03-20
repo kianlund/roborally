@@ -75,20 +75,18 @@ public class Board extends Subject {
         }
         this.stepMode = false;
 
-
+        /**
+         * This area is purely for testing. Will be removed when loading boards and board customization is available.
+         */
         ConveyorBelt ConveyorBelt1 = new ConveyorBelt();
         ConveyorBelt ConveyorBelt2 = new ConveyorBelt();
         ConveyorBelt ConveyorBelt3 = new ConveyorBelt();
-        // TESTING AREA
-        // TESTING AREA
         ConveyorBelt1.setHeading(Heading.SOUTH);
         ConveyorBelt2.setHeading(Heading.SOUTH);
-        ConveyorBelt3.setHeading(Heading.SOUTH);
+        ConveyorBelt3.setHeading(Heading.EAST);
         getSpace(0,0).setActions(ConveyorBelt1);
         getSpace(0,1).setActions(ConveyorBelt2);
         getSpace(0,2).setActions(ConveyorBelt3);
-        // TESTING AREA
-        // TESTING AREA
         
     }
 

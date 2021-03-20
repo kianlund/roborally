@@ -95,18 +95,13 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     private void updateFieldAction() {
-        this.getChildren().clear();
-
         FieldAction fieldaction = space.getActions().get(0);
-        if (fieldaction != null) {
+        if (fieldaction instanceof ConveyorBelt) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     20.0, 40.0,
                     40.0, 0.0 );
             arrow.setFill(Color.GREY);
-
-            if (fieldaction instanceof ConveyorBelt) {
-                arrow.setRotate((90*((ConveyorBelt) fieldaction).getHeading().ordinal())%360);
-            }
+            arrow.setRotate((90*((ConveyorBelt) fieldaction).getHeading().ordinal())%360);
 
             this.getChildren().add(arrow);
         }
@@ -115,6 +110,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
+            this.getChildren().clear();
             updateFieldAction();
             updatePlayer();
         }
