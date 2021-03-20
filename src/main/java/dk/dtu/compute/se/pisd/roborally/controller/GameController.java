@@ -231,6 +231,11 @@ public class GameController {
         }
     }
 
+
+    /**
+     *
+     */
+
     public void executeFieldActions() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             FieldAction fieldAction = board.getPlayer(i).getSpace().getActions().get(0);
@@ -269,8 +274,8 @@ public class GameController {
         Player other = space.getPlayer();
         if (other != null){
             Space target = board.getNeighbour(space, heading);
-            if (target != null && target.getPlayer() == null) {
-                moveToSpace(other, target, heading);
+            if (target != null) {
+                conveyorBeltMove(other, target, heading);
             }else {
                 throw new ImpossibleMoveException(player, space, heading);
             }
