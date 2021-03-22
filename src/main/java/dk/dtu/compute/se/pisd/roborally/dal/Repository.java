@@ -108,6 +108,7 @@ class Repository implements IRepository {
 				/* TOODO this method needs to be implemented first
 				createCardFieldsInDB(game);
 				 */
+				//createCardFieldsInDB(game); skal den med??
 
 				// since current player is a foreign key, it can oly be
 				// inserted after the players are created, since MySQL does
@@ -200,7 +201,7 @@ class Repository implements IRepository {
 		try {
 			// TODO here, we could actually use a simpler statement
 			//      which is not updatable, but reuse the one from
-			//      above for the pupose
+			//      above for the purpose
 			PreparedStatement ps = getSelectGameStatementU();
 			ps.setInt(1, id);
 			

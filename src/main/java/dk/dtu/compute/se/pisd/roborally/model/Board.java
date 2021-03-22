@@ -73,6 +73,7 @@ public class Board extends Subject {
                 space.setActions(null);
             }
         }
+        getSpace(1,1);
         this.stepMode = false;
 
         /**

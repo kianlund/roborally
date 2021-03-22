@@ -170,6 +170,7 @@ public class GameController {
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
                         startProgrammingPhase();
+                        ///////////////////start fieldaction ting ting
                     }
                 }
             } else {

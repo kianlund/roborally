@@ -120,5 +120,4 @@ public class SpaceView extends StackPane implements ViewObserver {
             updatePlayer();
         }
     }
-
 }

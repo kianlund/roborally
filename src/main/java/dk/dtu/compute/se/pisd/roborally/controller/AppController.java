@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
+import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -34,6 +36,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import jdk.jfr.internal.Repository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -92,17 +95,16 @@ public class AppController implements Observer {
             roboRally.createBoardView(gameController);
         }
     }
-
+    private IRepository test = RepositoryAccess.getRepository();
     public void saveGame() {
-        // XXX needs to be implemented eventually
+        test.createGameInDB(gameController.board);
     }
 
     public void loadGame() {
-        // XXX needs to be implememted eventually
-        // for now, we just create a new game
-        if (gameController == null) {
-            newGame();
-        }
+        gameController = new GameController(gameController.board);
+        gameController.startProgrammingPhase();
+        roboRally.createBoardView(gameController);
+
     }
 
     /**
