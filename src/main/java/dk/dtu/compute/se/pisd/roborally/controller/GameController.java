@@ -166,9 +166,9 @@ public class GameController {
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
+                        executeFieldActions();
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
-                        executeFieldActions();
                         startProgrammingPhase();
                     }
                 }
