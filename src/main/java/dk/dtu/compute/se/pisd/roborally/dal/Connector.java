@@ -39,9 +39,9 @@ class Connector {
 	
     private static final String HOST     = "localhost";
     private static final int    PORT     = 3306;
-    private static final String DATABASE = "pisu";
-    private static final String USERNAME = "user";
-    private static final String PASSWORD = "";
+    private static final String DATABASE = "pisu2";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "1234";
 
     private static final String DELIMITER = ";;";
     
@@ -63,10 +63,8 @@ class Connector {
     }
     
     private void createDatabaseSchema() {
-
     	String createTablesStatement =
 				IOUtil.readResource("schemas/createschema.sql");
-
     	try {
     		connection.setAutoCommit(false);
     		Statement statement = connection.createStatement();

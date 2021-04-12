@@ -19,13 +19,13 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
+package dk.dtu.compute.se.pisd.roborally.model.components;
 
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
-
-import java.util.ArrayList;
-import java.util.List;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * ...
@@ -33,12 +33,22 @@ import java.util.List;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class SpaceTemplate {
+public class Checkpoint extends FieldAction {
 
-    public List<Heading> walls = new ArrayList<>();
-    public List<FieldAction> actions = new ArrayList<>();
+    private int number;
 
-    public int x;
-    public int y;
+    public void setNumber(int num) {
+        this.number = num;
+    }
+
+    @Override
+    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+        if (number == (space.getPlayer().getCheckpoint() + 1)) {
+            gameController.incrementPlayerCheckpoint(space.getPlayer());
+            System.out.println("it works huzzah delete me. im in Checkpoint line 48");
+        }
+
+        return false; // WHAT DO ABOUT DIS ?
+    }
 
 }

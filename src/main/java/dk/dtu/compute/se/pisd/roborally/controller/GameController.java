@@ -170,7 +170,6 @@ public class GameController {
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
                         startProgrammingPhase();
-                        ///////////////////start fieldaction ting ting
                     }
                 }
             } else {
@@ -246,7 +245,7 @@ public class GameController {
         }
     }
 
-    class ImpossibleMoveException extends Exception {
+    public class ImpossibleMoveException extends Exception {
         private Player player;
         private Space space;
         private Heading heading;
@@ -269,6 +268,10 @@ public class GameController {
             }
         }
         player.setSpace(space);
+    }
+
+    public void incrementPlayerCheckpoint(Player player){
+        player.setCheckpoint(player.getCheckpoint() + 1);
     }
 
     // TODO Assignment V2

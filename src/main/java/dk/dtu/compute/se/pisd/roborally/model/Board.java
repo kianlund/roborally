@@ -22,8 +22,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.components.Checkpoint;
+import dk.dtu.compute.se.pisd.roborally.model.components.ConveyorBelt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -82,13 +82,16 @@ public class Board extends Subject {
         ConveyorBelt ConveyorBelt1 = new ConveyorBelt();
         ConveyorBelt ConveyorBelt2 = new ConveyorBelt();
         ConveyorBelt ConveyorBelt3 = new ConveyorBelt();
+        Checkpoint Checkpoint1 = new Checkpoint();
         ConveyorBelt1.setHeading(Heading.SOUTH);
         ConveyorBelt2.setHeading(Heading.SOUTH);
         ConveyorBelt3.setHeading(Heading.EAST);
+        Checkpoint1.setNumber(1);
         getSpace(0,0).setActions(ConveyorBelt1);
         getSpace(0,1).setActions(ConveyorBelt2);
         getSpace(0,2).setActions(ConveyorBelt3);
-        
+        getSpace(0,3).setActions(Checkpoint1);
+
     }
 
     public Board(int width, int height) {

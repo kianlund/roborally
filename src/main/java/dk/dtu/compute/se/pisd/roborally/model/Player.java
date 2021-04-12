@@ -42,6 +42,8 @@ public class Player extends Subject {
     private String name;
     private String color;
 
+    private int checkpoint = 0;
+
     private Space space;
     private Heading heading = SOUTH;
 
@@ -133,4 +135,11 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    public int getCheckpoint() {
+        return checkpoint;
+    }
+
+    public void setCheckpoint(int checkpoint) {
+        this.checkpoint = checkpoint;
+    }
 }
