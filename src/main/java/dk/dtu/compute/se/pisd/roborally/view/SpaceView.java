@@ -22,13 +22,16 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.components.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.model.components.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.components.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -90,19 +93,28 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     /**
-     * space.getActions().get(0) henter bare den første og ENESTE action der er i fieldactions/conveybelts arraylist.
+     * space.getActions().get(0) henter bare den første og ENESTE action der er i fieldactions/conveybelts etc. arraylist.
      */
     private void updateFieldAction() {
         FieldAction fieldaction = space.getActions().get(0);
         if (fieldaction instanceof ConveyorBelt) {
-            Polygon arrow = new Polygon(
+            Polygon shape = new Polygon(
                     0.0, 0.0,
                     20.0, 40.0,
                     40.0, 0.0 );
-            arrow.setFill(Color.GREY);
-            arrow.setRotate((90*((ConveyorBelt) fieldaction).getHeading().ordinal())%360);
+            shape.setFill(Color.GREY);
+            shape.setRotate((90*((ConveyorBelt) fieldaction).getHeading().ordinal())%360);
 
-            this.getChildren().add(arrow);
+            this.getChildren().add(shape);
+        }
+        if (fieldaction instanceof Checkpoint) {
+            Rectangle shape = new Rectangle(30.0,30.0);
+            shape.setFill(Color.LIGHTGREEN);
+            Integer num = ((Checkpoint) fieldaction).getNumber();
+            Text text = new Text(num.toString());
+
+            this.getChildren().add(shape);
+            this.getChildren().add(text);
         }
     }
 

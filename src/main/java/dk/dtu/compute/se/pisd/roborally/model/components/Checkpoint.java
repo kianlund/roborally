@@ -22,8 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.model.components;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,11 +39,15 @@ public class Checkpoint extends FieldAction {
         this.number = num;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         if (number == (space.getPlayer().getCheckpoint() + 1)) {
             gameController.incrementPlayerCheckpoint(space.getPlayer());
-            System.out.println("it works huzzah delete me. im in Checkpoint line 48");
+            return true;
         }
 
         return false; // WHAT DO ABOUT DIS ?

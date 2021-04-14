@@ -22,7 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.model.components;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +50,7 @@ public class ConveyorBelt extends FieldAction {
         Space target = gameController.board.getNeighbour(space,heading);
         try {
             gameController.moveToSpace(space.getPlayer(),target,heading);
+            return true;
         } catch (GameController.ImpossibleMoveException e) {
             e.printStackTrace();
         }
