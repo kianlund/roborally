@@ -39,6 +39,7 @@ import javafx.scene.control.ChoiceDialog;
 import jdk.jfr.internal.Repository;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -95,13 +96,27 @@ public class AppController implements Observer {
             roboRally.createBoardView(gameController);
         }
     }
-    private IRepository test = RepositoryAccess.getRepository();
+    private IRepository repo = RepositoryAccess.getRepository();
     public void saveGame() {
-        test.createGameInDB(gameController.board);
+        repo.createGameInDB(gameController.board);
     }
 
     public void loadGame() {
-        gameController = new GameController(gameController.board);
+        ArrayList<String> gamesListNames = new ArrayList<String>();
+        ArrayList<Integer> gamesListID = new ArrayList<Integer>();
+        for (int i = 0; i < repo.getGames().size(); i++) {
+            gamesListNames.add(repo.getGames().get(i).name);
+            gamesListID.add(repo.getGames().get(i).id);
+        }
+
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(gamesListID.get(0), gamesListID);
+        dialog.setTitle("Game ID");
+        dialog.setHeaderText("Select game to load");
+        Optional<Integer> result = dialog.showAndWait();
+
+        Board loadedBoard = repo.loadGameFromDB(result.get());
+
+        gameController = new GameController(loadedBoard);
         gameController.startProgrammingPhase();
         roboRally.createBoardView(gameController);
 
