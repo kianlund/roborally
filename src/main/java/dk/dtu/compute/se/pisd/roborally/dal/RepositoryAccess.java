@@ -33,7 +33,7 @@ public class RepositoryAccess {
 	
 	public static IRepository getRepository() {
 		if(repository == null) {
-			repository = new Repository(new Connector());
+			repository = new Repository(Connector.getInstance());
 		}
 		return repository;
 	}

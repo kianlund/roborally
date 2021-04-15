@@ -46,8 +46,15 @@ class Connector {
     private static final String DELIMITER = ";;";
     
     private Connection connection;
+
+    private static Connector connector= null;
+
+	static Connector getInstance(){
+		if (connector == null) connector = new Connector();
+		return connector;
+	}
         
-    Connector() {
+    private Connector() {
         try {
 			// String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE;
 			String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?serverTimezone=UTC";
@@ -90,7 +97,8 @@ class Connector {
     }
     
     Connection getConnection() {
-    	return connection; 
+
+		return connection;
     }
     
 }
