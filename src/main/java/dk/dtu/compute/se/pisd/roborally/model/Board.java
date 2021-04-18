@@ -70,10 +70,9 @@ public class Board extends Subject {
             for(int y = 0; y < height; y++) {
                 Space space = new Space(this, x, y);
                 spaces[x][y] = space;
-                space.setActions(null);
+//                space.setActions(null);
             }
         }
-        getSpace(1,1);
         this.stepMode = false;
 
         /**

@@ -96,13 +96,14 @@ public class SpaceView extends StackPane implements ViewObserver {
      * space.getActions().get(0) henter bare den første og ENESTE action der er i fieldactions/conveybelts etc. arraylist.
      */
     private void updateFieldAction() {
-        FieldAction fieldaction = space.getActions().get(0);
+        FieldAction fieldaction = null;
+        try {fieldaction = space.getActions().get(0);} catch (Exception e) {} //What the hell is this mess
         if (fieldaction instanceof ConveyorBelt) {
             Polygon shape = new Polygon(
                     0.0, 0.0,
                     20.0, 40.0,
                     40.0, 0.0 );
-            shape.setFill(Color.GREY);
+            shape.setFill(Color.LIGHTGREY);
             shape.setRotate((90*((ConveyorBelt) fieldaction).getHeading().ordinal())%360);
 
             this.getChildren().add(shape);
