@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dk.dtu.compute.se.pisd.roborally.model.components.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.components.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
@@ -76,7 +77,8 @@ public class LoadBoard {
 			for (SpaceTemplate spaceTemplate: template.spaces) {
 			    Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
 			    if (space != null) {
-                    space.getActions().addAll(spaceTemplate.actions);
+//                    space.getActions().addAll(spaceTemplate.actions);
+                    space.setActions(spaceTemplate.actions.get(0));
                     space.getWalls().addAll(spaceTemplate.walls);
                 }
             }
