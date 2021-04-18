@@ -239,7 +239,10 @@ public class GameController {
 
     public void executeFieldActions() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
-            FieldAction fieldAction = board.getPlayer(i).getSpace().getActions().get(0);
+            FieldAction fieldAction = null;
+            try {
+                fieldAction = board.getPlayer(i).getSpace().getActions().get(0);
+            } catch (Exception e) {}    // FIX THIS
             if (fieldAction != null) {
                 fieldAction.doAction(this,board.getPlayer(i).getSpace());
             }
