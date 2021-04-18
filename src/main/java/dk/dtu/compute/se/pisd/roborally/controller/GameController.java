@@ -242,7 +242,7 @@ public class GameController {
             FieldAction fieldAction = null;
             try {
                 fieldAction = board.getPlayer(i).getSpace().getActions().get(0);
-            } catch (Exception e) {}    // FIX THIS
+            } catch (Exception e) {}    // FIX THIS EXCEPTION (Also needs to loop through all actions)
             if (fieldAction != null) {
                 fieldAction.doAction(this,board.getPlayer(i).getSpace());
             }
