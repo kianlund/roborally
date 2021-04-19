@@ -22,17 +22,23 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.components.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.model.components.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.components.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -121,11 +127,46 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    private void updateWalls() {
+//        Heading walls = null;
+        Pane pane = new Pane();
+        Rectangle rectangle = new Rectangle(0.0,0.0,SPACE_WIDTH,SPACE_HEIGHT);
+        rectangle.setFill(Color.TRANSPARENT);
+        pane.getChildren().add(rectangle);
+
+        Line line = new Line();
+        List<Heading> walls = null;
+        if (!(space.getWalls().isEmpty())) {
+            walls = space.getWalls();
+            for (Heading wall: walls) {
+                switch (wall) {
+                    case NORTH:
+                        line = new Line(2,2,SPACE_WIDTH-2,2);
+                        break;
+                    case SOUTH:
+                        line = new Line(2,SPACE_HEIGHT-2,SPACE_WIDTH-2,SPACE_HEIGHT-2);
+                        break;
+                    case WEST:
+                        line = new Line(2,2,2,SPACE_HEIGHT-2);
+                        break;
+                    case EAST:
+                        line = new Line(SPACE_WIDTH-2,2,SPACE_WIDTH-2,SPACE_HEIGHT-2);
+                        break;
+                }
+            }
+            line.setStroke(Color.RED);
+            line.setStrokeWidth(5);
+            pane.getChildren().add(line);
+            this.getChildren().add(pane);
+        }
+    }
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
             this.getChildren().clear();
             updateFieldAction();
+            updateWalls();
             updatePlayer();
         }
     }
