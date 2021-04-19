@@ -140,11 +140,13 @@ public class AppController implements Observer {
         dialog.setHeaderText("Select game to load");
         Optional<Integer> result = dialog.showAndWait();
 
-        Board loadedBoard = repo.loadGameFromDB(result.get());
+        if (result.isPresent()) {
+            Board loadedBoard = repo.loadGameFromDB(result.get());
 
-        gameController = new GameController(loadedBoard);
-        gameController.startProgrammingPhase();
-        roboRally.createBoardView(gameController);
+            gameController = new GameController(loadedBoard);
+            gameController.startProgrammingPhase();
+            roboRally.createBoardView(gameController);
+        }
 
     }
 
