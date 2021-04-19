@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.exceptions.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.components.FieldAction;
 import org.jetbrains.annotations.NotNull;
@@ -241,27 +242,12 @@ public class GameController {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             FieldAction fieldAction = null;
             if (!(board.getPlayer(i).getSpace().getActions().isEmpty())){
-                fieldAction = board.getPlayer(i).getSpace().getActions().get(0);
+                fieldAction = board.getPlayer(i).getSpace().getActions().get(0); // TODO: Loop for every fieldaction
                 fieldAction.doAction(this,board.getPlayer(i).getSpace());
             }
-            if (fieldAction != null) {
-
-            }
         }
     }
 
-    public class ImpossibleMoveException extends Exception {
-        private Player player;
-        private Space space;
-        private Heading heading;
-
-        public ImpossibleMoveException(Player player, Space space, Heading heading) {
-            super ("move impossible");
-            this.player = player;
-            this.space = space;
-            this.heading = heading;
-        }
-    }
     public void moveToSpace (@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         Player other = space.getPlayer();
         if (other != null){

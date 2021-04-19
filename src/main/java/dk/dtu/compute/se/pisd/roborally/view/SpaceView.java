@@ -98,7 +98,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     private void updateFieldAction() {
         FieldAction fieldaction = null;
         if (!(space.getActions().isEmpty())) {
-            fieldaction = space.getActions().get(0);
+            fieldaction = space.getActions().get(0); // TODO: Loop for every fieldaction
         }
         if (fieldaction instanceof ConveyorBelt) {
             Polygon shape = new Polygon(
