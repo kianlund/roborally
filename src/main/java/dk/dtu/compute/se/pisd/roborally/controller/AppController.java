@@ -98,7 +98,21 @@ public class AppController implements Observer {
     }
     private IRepository repo = RepositoryAccess.getRepository();
     public void saveGame() {
-        repo.createGameInDB(gameController.board);
+        Boolean foundIDMatch = false;
+        for (int i = 0; i < repo.getGames().size(); i++) {
+            if (gameController.board.getGameId() == null) {
+                break;
+            }
+            if (gameController.board.getGameId() == repo.getGames().get(i).id) {
+                foundIDMatch = true;
+                break;
+            }
+        }
+        if (foundIDMatch == true) {
+            repo.updateGameInDB(gameController.board);
+        } else {
+            repo.createGameInDB(gameController.board);
+        }
     }
 
     public void loadGame() {
