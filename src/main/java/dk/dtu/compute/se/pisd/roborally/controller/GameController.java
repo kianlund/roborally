@@ -240,11 +240,12 @@ public class GameController {
     public void executeFieldActions() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             FieldAction fieldAction = null;
-            try {
+            if (!(board.getPlayer(i).getSpace().getActions().isEmpty())){
                 fieldAction = board.getPlayer(i).getSpace().getActions().get(0);
-            } catch (Exception e) {}    // FIX THIS EXCEPTION (Also needs to loop through all actions)
-            if (fieldAction != null) {
                 fieldAction.doAction(this,board.getPlayer(i).getSpace());
+            }
+            if (fieldAction != null) {
+
             }
         }
     }
