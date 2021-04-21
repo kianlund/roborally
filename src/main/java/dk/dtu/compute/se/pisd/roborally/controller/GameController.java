@@ -169,13 +169,8 @@ public class GameController {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         executeFieldActions();
-                        incrementPlayerCheckpoint(currentPlayer);
                         board.setCurrentPlayer(board.getPlayer(0));
-                    } if (currentPlayer.getCheckpoint() == 3) {
-                        System.out.println("Congratulations" + currentPlayer + "Has won!");
-                        return;
-                    }
-                        else {
+                    } else {
                         startProgrammingPhase();
                     }
                 }
@@ -268,6 +263,13 @@ public class GameController {
 
     public void incrementPlayerCheckpoint(Player player){
         player.setCheckpoint(player.getCheckpoint() + 1);
+        checkPlayerHasWon(player);
+    }
+
+    public void checkPlayerHasWon(Player player) {
+        if (player.getCheckpoint() == 3) {
+            System.out.println("asdasdasdasdasd");
+        }
     }
 
     // TODO Assignment V2
