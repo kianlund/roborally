@@ -35,8 +35,8 @@ public class Checkpoint extends FieldAction {
 
     private int number;
 
-    public void setNumber(int num) {
-        this.number = num;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public int getNumber() {

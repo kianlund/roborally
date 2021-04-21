@@ -201,6 +201,42 @@
       ],
       "x": 7,
       "y": 7
+    },
+    {
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.components.Checkpoint",
+          "INSTANCE": {
+            "number": "1"
+          }
+        }
+      ],
+      "x": 7,
+      "y": 0
+    },
+    {
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.components.Checkpoint",
+          "INSTANCE": {
+            "number": "2"
+          }
+        }
+      ],
+      "x": 7,
+      "y": 1
+    },
+    {
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.components.Checkpoint",
+          "INSTANCE": {
+            "number": "3"
+          }
+        }
+      ],
+      "x": 7,
+      "y": 2
     }
   ]
 }
