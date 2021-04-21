@@ -22,13 +22,11 @@
 package dk.dtu.compute.se.pisd.roborally.dal;
 
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -456,6 +454,35 @@ class Repository implements IRepository {
 		return select_games_stmt;
 	}
 
+	private void loadCardFieldFromDK(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardFieldStatement();
+		ps.setInt(1, game.getGameId());
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			int playerID = rs.getInt(FIELD_PLAYERID);
+			Player player = game.getPlayer(playerID);
+			int type = rs.getInt(FIELD_TYPE);
+			int pos = rs.getInt(FIELD_POS);
+			CommandCardField field;
+			if (type == FIELD_TYPE_REGISTER) {
+				field = player.getProgramField(pos);
+			} else if (type == FIELD_TYPE_RAND) {
+				field = player.getCardField(pos);
+			} else {
+				field = null;
+			}
+			if (field != null) {
+				field.setVisible(rs.getBoolean(FIELD_VISIBLE));
+				Object c = rs.getObject(FIELD_COMAND);
+				if (c != null) {
+					Command card = Command.values()[rs.getInt(FIELD_COMMAND)];
+					field.setCard(new CommandCard(card));
+				}
+			}
+		}
+		rs. close();
+	}
 
 
 }
