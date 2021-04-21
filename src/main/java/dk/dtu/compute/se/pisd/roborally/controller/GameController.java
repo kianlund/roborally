@@ -169,8 +169,13 @@ public class GameController {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         executeFieldActions();
+                        incrementPlayerCheckpoint(currentPlayer);
                         board.setCurrentPlayer(board.getPlayer(0));
-                    } else {
+                    } if (currentPlayer.getCheckpoint() == 3) {
+                        System.out.println("Congratulations" + currentPlayer + "Has won!");
+                        return;
+                    }
+                        else {
                         startProgrammingPhase();
                     }
                 }
