@@ -247,6 +247,7 @@ class Repository implements IRepository {
 
 			game.setGameId(id);			
 			loadPlayersFromDB(game);
+			loadCardFieldFromDB(game);
 
 			if (playerNo >= 0 && playerNo < game.getPlayersNumber()) {
 				game.setCurrentPlayer(game.getPlayer(playerNo));
@@ -503,7 +504,7 @@ class Repository implements IRepository {
 	}
 
 
-	private void loadCardFieldFromDK(Board game) throws SQLException {
+	private void loadCardFieldFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardFieldStatement();
 		ps.setInt(1, game.getGameId());
 
