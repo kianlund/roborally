@@ -64,6 +64,22 @@ class Repository implements IRepository {
 
 	private static final String PLAYER_HEADING = "heading";
 
+	private static final String FIELD_GAMEID = "gameID";
+
+	private static final String FIELD_PLAYERID = "playerID";
+
+	private static final String FIELD_TYPE = "type";
+
+	private static final int FIELD_TYPE_REGISTER = 0;
+
+	private static final int FIELD_TYPE_RAND = 1;
+
+	private static final String FIELD_POS = "position";
+
+	private static final String FIELD_VISIBLE = "visible";
+
+	private static final String FIELD_COMMAND = "command";
+
 	private Connector connector;
 	
 	Repository(Connector connector){
@@ -453,6 +469,39 @@ class Repository implements IRepository {
 		}
 		return select_games_stmt;
 	}
+	private static final String SQL_SELECT_CARD_FIELDS = "SELECT * FROM CardField WHERE gameID = ?";
+
+	private PreparedStatement select_card_field_stat = null;
+
+	private PreparedStatement getSelectCardFieldStatement() {
+		if (select_card_field_stat == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_card_field_stat = connection.prepareStatement(SQL_SELECT_CARD_FIELDS);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return select_card_field_stat;
+	}
+
+	private PreparedStatement select_card_field_stat_u = null;
+
+	private PreparedStatement getSelectCardFieldStatementU() {
+		if (select_card_field_stat_u == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_card_field_stat_u = connection.prepareStatement(
+						SQL_SELECT_CARD_FIELDS,
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_UPDATABLE);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return select_card_field_stat_u;
+	}
+
 
 	private void loadCardFieldFromDK(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardFieldStatement();
@@ -474,7 +523,7 @@ class Repository implements IRepository {
 			}
 			if (field != null) {
 				field.setVisible(rs.getBoolean(FIELD_VISIBLE));
-				Object c = rs.getObject(FIELD_COMAND);
+				Object c = rs.getObject(FIELD_COMMAND);
 				if (c != null) {
 					Command card = Command.values()[rs.getInt(FIELD_COMMAND)];
 					field.setCard(new CommandCard(card));
