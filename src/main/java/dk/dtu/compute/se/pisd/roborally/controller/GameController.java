@@ -24,6 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.exceptions.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.components.FieldAction;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -165,10 +167,10 @@ public class GameController {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
                     step++;
+                    executeFieldActions();
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
-                        executeFieldActions();
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
                         startProgrammingPhase();
@@ -197,6 +199,7 @@ public class GameController {
                 board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
             } else {
                 int step = board.getStep() + 1;
+                executeFieldActions();
                 if (step < Player.NO_REGISTERS) {
                     makeProgramFieldsVisible(step);
                     board.setStep(step);
@@ -268,7 +271,11 @@ public class GameController {
 
     public void checkPlayerHasWon(Player player) {
         if (player.getCheckpoint() == 3) {
-            System.out.println("asdasdasdasdasd");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Congratulations!");
+            alert.setHeaderText(player.getName()+" has won the game!");
+            alert.show();
+            board.setPhase(Phase.ENDOFGAME);
         }
     }
 
