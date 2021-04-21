@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.view.BoardView;
+import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -67,6 +69,7 @@ class Repository implements IRepository {
 	private Connector connector;
 	
 	Repository(Connector connector){
+
 		this.connector = connector;
 	}
 
@@ -105,9 +108,9 @@ class Repository implements IRepository {
 				// statement.close();
 
 				createPlayersInDB(game);
-				/* TOODO this method needs to be implemented first
-				createCardFieldsInDB(game);
-				 */
+				// TOODO this method needs to be implemented first
+				//createCardFieldsInDB(game);
+
 				//createCardFieldsInDB(game); skal den med??
 
 				// since current player is a foreign key, it can oly be
@@ -295,6 +298,10 @@ class Repository implements IRepository {
 
 		rs.close();
 	}
+
+//	private void createConveyerBeltsInDB(Board game) {
+//		for (int i = 0; i < Board.);
+//	}
 	
 	private void loadPlayersFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersASCStatement();

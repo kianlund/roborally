@@ -28,6 +28,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -43,6 +44,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
+import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 
 /**
  * ...
@@ -69,6 +73,8 @@ public class AppController implements Observer {
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
 
+
+
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
@@ -77,10 +83,19 @@ public class AppController implements Observer {
                     return;
                 }
             }
+/*
+            ChoiceDialog<Board> dialog = new ChoiceDialog<>(LoadBoard, );
+            dialog.setTitle("Board Style");
+            dialog.setHeaderText("Select board");
+            Optional<Board> boardResult = dialog.showAndWait();
 
+            if (boardResult.isPresent()) {
+                switch ();
+            }
+*/
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-            Board board = new Board(8,8);
+            Board board = LoadBoard.loadBoard(null);
             gameController = new GameController(board);
             int no = result.get();
             for (int i = 0; i < no; i++) {
@@ -172,11 +187,20 @@ public class AppController implements Observer {
             }
         }
 
+
+
         // If the user did not cancel, the RoboRally application will exit
         // after the option to save the game
         if (gameController == null || stopGame()) {
             Platform.exit();
         }
+    }
+
+    public void selectBoard() {
+        if (gameController != null) {
+
+        }
+
     }
 
     public boolean isGameRunning() {

@@ -48,6 +48,9 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
+    private MenuItem selectBoard;
+
+
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
 
@@ -73,6 +76,10 @@ public class RoboRallyMenuBar extends MenuBar {
         exitApp = new MenuItem("Exit");
         exitApp.setOnAction( e -> this.appController.exit());
         controlMenu.getItems().add(exitApp);
+
+        selectBoard = new MenuItem("Select Board");
+        selectBoard.setOnAction( e -> this.appController.selectBoard());
+        controlMenu.getItems().add(selectBoard);
 
         controlMenu.setOnShowing(e -> update());
         controlMenu.setOnShown(e -> this.updateBounds());
