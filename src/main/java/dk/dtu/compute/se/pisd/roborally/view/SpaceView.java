@@ -48,8 +48,8 @@ import java.util.List;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 70; // 60; // 75;
-    final public static int SPACE_WIDTH = 70;  // 60; // 75;
+    final public static int SPACE_HEIGHT = 65; // 60; // 75;
+    final public static int SPACE_WIDTH = 65;  // 60; // 75;
 
     public final Space space;
 

@@ -71,6 +71,7 @@ class Repository implements IRepository {
 	private Connector connector;
 	
 	Repository(Connector connector){
+
 		this.connector = connector;
 	}
 

@@ -45,6 +45,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
+import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
+
 /**
  * ...
  *
@@ -184,11 +187,20 @@ public class AppController implements Observer {
             }
         }
 
+
+
         // If the user did not cancel, the RoboRally application will exit
         // after the option to save the game
         if (gameController == null || stopGame()) {
             Platform.exit();
         }
+    }
+
+    public void selectBoard() {
+        if (gameController != null) {
+
+        }
+
     }
 
     public boolean isGameRunning() {
