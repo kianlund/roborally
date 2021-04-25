@@ -296,7 +296,7 @@ class Repository implements IRepository {
 		// TODO code should be more defensive
 		PreparedStatement ps = getSelectPlayersStatementU();
 		ps.setInt(1, game.getGameId());
-		
+
 		ResultSet rs = ps.executeQuery();
 		for (int i = 0; i < game.getPlayersNumber(); i++) {
 			Player player = game.getPlayer(i);
@@ -313,6 +313,24 @@ class Repository implements IRepository {
 
 		rs.close();
 	}
+
+//	private void createCardFieldsInDB(Board game) throws SQLException {
+//		PreparedStatement ps = getSelectCardFieldStatementU();
+//		ps.setInt(1, game.getGameId());
+//
+//		ResultSet rs = ps.executeQuery();
+//		for (int i = 0; i < game.getPlayersNumber(); i++) {
+//			rs.moveToInsertRow();
+//			rs.updateInt(FIELD_GAMEID, game.getGameId());
+//			rs.updateInt(FIELD_PLAYERID, i);
+//			for (int j = 0; j < 8; j++) {
+//				rs.updateInt(FIELD_COMMAND,0);
+//			}
+//			rs.insertRow();
+//		}
+//
+//		rs.close();
+//	}
 
 //	private void createConveyerBeltsInDB(Board game) {
 //		for (int i = 0; i < Board.);
