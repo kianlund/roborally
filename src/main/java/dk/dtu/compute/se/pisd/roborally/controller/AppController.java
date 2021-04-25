@@ -63,6 +63,8 @@ public class AppController implements Observer {
 
     private GameController gameController;
 
+    final private List<String> MAP_LIST = Arrays.asList("defaultboard","MerryGoRound");
+
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
@@ -83,19 +85,23 @@ public class AppController implements Observer {
                     return;
                 }
             }
-/*
-            ChoiceDialog<Board> dialog = new ChoiceDialog<>(LoadBoard, );
-            dialog.setTitle("Board Style");
-            dialog.setHeaderText("Select board");
-            Optional<Board> boardResult = dialog.showAndWait();
 
+            ChoiceDialog<String> boardDialog = new ChoiceDialog<>(MAP_LIST.get(0), MAP_LIST);
+            boardDialog.setTitle("Board Style");
+            boardDialog.setHeaderText("Select board");
+            Optional<String> boardResult = boardDialog.showAndWait();
+
+            Board board;
             if (boardResult.isPresent()) {
-                switch ();
+                board = LoadBoard.loadBoard(boardResult.get());
+                board.setBoardName(boardResult.get());
+            } else {
+                return;
             }
-*/
+
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-            Board board = LoadBoard.loadBoard(null);
+//            Board board = LoadBoard.loadBoard(null);
             gameController = new GameController(board);
             int no = result.get();
             for (int i = 0; i < no; i++) {

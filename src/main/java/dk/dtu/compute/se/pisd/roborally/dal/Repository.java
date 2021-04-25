@@ -44,7 +44,7 @@ class Repository implements IRepository {
 
 	private static final String GAME_NAME = "name";
 
-	private static final String GAME_BOARDNAME = "name";
+	private static final String GAME_BOARDNAME = "boardName";
 
 	private static final String GAME_CURRENTPLAYER = "currentPlayer";
 
@@ -234,7 +234,7 @@ class Repository implements IRepository {
 				// game = new Board(width,height);
 				// TODO and we should also store the used game board in the database
 				//      for now, we use the default game board
-				game = LoadBoard.loadBoard(null);
+				game = LoadBoard.loadBoard(rs.getString(GAME_BOARDNAME));
 				if (game == null) {
 					return null;
 				}
