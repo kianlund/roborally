@@ -126,7 +126,7 @@ class Repository implements IRepository {
 
 				createPlayersInDB(game);
 				// TOODO this method needs to be implemented first
-				//createCardFieldsInDB(game);
+				createCardFieldsInDB(game);
 
 				//createCardFieldsInDB(game); skal den med??
 
@@ -250,7 +250,6 @@ class Repository implements IRepository {
 
 			game.setGameId(id);			
 			loadPlayersFromDB(game);
-			loadCardFieldFromDB(game);
 
 			if (playerNo >= 0 && playerNo < game.getPlayersNumber()) {
 				game.setCurrentPlayer(game.getPlayer(playerNo));
@@ -259,9 +258,7 @@ class Repository implements IRepository {
 				return null;
 			}
 
-			/* TOODO this method needs to be implemented first
-			loadCardFieldsFromDB(game);
-			*/
+			loadCardFieldFromDB(game);
 
 			return game;
 		} catch (SQLException e) {
@@ -317,23 +314,38 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
-//	private void createCardFieldsInDB(Board game) throws SQLException {
-//		PreparedStatement ps = getSelectCardFieldStatementU();
-//		ps.setInt(1, game.getGameId());
-//
-//		ResultSet rs = ps.executeQuery();
-//		for (int i = 0; i < game.getPlayersNumber(); i++) {
-//			rs.moveToInsertRow();
-//			rs.updateInt(FIELD_GAMEID, game.getGameId());
-//			rs.updateInt(FIELD_PLAYERID, i);
-//			for (int j = 0; j < 8; j++) {
-//				rs.updateInt(FIELD_COMMAND,0);
-//			}
-//			rs.insertRow();
-//		}
-//
-//		rs.close();
-//	}
+	private void createCardFieldsInDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardFieldStatementU();
+		ps.setInt(1, game.getGameId());
+
+		ResultSet rs = ps.executeQuery();
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+			for (int j = 0; j < 8; j++) { // there are 8 cards total in the card field. Register cards need to be saved also
+				rs.moveToInsertRow();
+				CommandCardField cmdCardField = game.getPlayer(i).getCardField(j);
+				rs.updateInt(FIELD_GAMEID, game.getGameId());
+				rs.updateInt(FIELD_PLAYERID, i);
+				rs.updateInt(FIELD_TYPE,FIELD_TYPE_RAND);
+				rs.updateInt(FIELD_POS,j);
+				rs.updateBoolean(FIELD_VISIBLE, cmdCardField.isVisible());
+
+				if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, TODO: make it sparkle
+					rs.updateInt(FIELD_COMMAND,0);
+				} else if (cmdCardField.getCard().command == Command.LEFT) {
+					rs.updateInt(FIELD_COMMAND,1);
+				} else if (cmdCardField.getCard().command == Command.RIGHT) {
+					rs.updateInt(FIELD_COMMAND,2);
+				} else if (cmdCardField.getCard().command == Command.FAST_FORWARD) {
+					rs.updateInt(FIELD_COMMAND,3);
+				} else if (cmdCardField.getCard().command == Command.OPTION_LEFT_RIGHT) {
+					rs.updateInt(FIELD_COMMAND,4);
+				}
+//				rs.updateObject(FIELD_COMMAND,cmdCardField.getCard());
+				rs.insertRow();
+			}
+		}
+		rs.close();
+	}
 
 //	private void createConveyerBeltsInDB(Board game) {
 //		for (int i = 0; i < Board.);
@@ -545,12 +557,17 @@ class Repository implements IRepository {
 			}
 			if (field != null) {
 				field.setVisible(rs.getBoolean(FIELD_VISIBLE));
-				Object c = rs.getObject(FIELD_COMMAND);
-				if (c != null) {
-					Command card = Command.values()[rs.getInt(FIELD_COMMAND)];
-					field.setCard(new CommandCard(card));
-				}
+				Command card = Command.values()[rs.getInt(FIELD_COMMAND)];
+				field.setCard(new CommandCard(card));
 			}
+//			if (field != null) {
+//				field.setVisible(rs.getBoolean(FIELD_VISIBLE));
+//				Object c = rs.getObject(FIELD_COMMAND);
+//				if (c != null) {
+//					Command card = Command.values()[rs.getInt(FIELD_COMMAND)];
+//					field.setCard(new CommandCard(card));
+//				}
+//			}
 		}
 		rs. close();
 	}
