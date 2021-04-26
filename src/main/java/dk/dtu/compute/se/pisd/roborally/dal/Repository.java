@@ -331,9 +331,9 @@ class Repository implements IRepository {
 
 				if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, TODO: make it sparkle
 					rs.updateInt(FIELD_COMMAND,0);
-				} else if (cmdCardField.getCard().command == Command.LEFT) {
-					rs.updateInt(FIELD_COMMAND,1);
 				} else if (cmdCardField.getCard().command == Command.RIGHT) {
+					rs.updateInt(FIELD_COMMAND,1);
+				} else if (cmdCardField.getCard().command == Command.LEFT) {
 					rs.updateInt(FIELD_COMMAND,2);
 				} else if (cmdCardField.getCard().command == Command.FAST_FORWARD) {
 					rs.updateInt(FIELD_COMMAND,3);
