@@ -38,6 +38,8 @@ public class GameController {
 
     final public Board board;
 
+    static boolean gameWasLoaded = false;
+
     public GameController(@NotNull Board board) {
         this.board = board;
     }
@@ -68,28 +70,29 @@ public class GameController {
     }
 
     // XXX: V2
-    public void startProgrammingPhase() {
+    public void startProgrammingPhase(boolean skipCardGen) {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
-            if (player != null) {
-                for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    CommandCardField field = player.getProgramField(j);
-                    field.setCard(null);
-                    field.setVisible(true);
-                }
-                for (int j = 0; j < Player.NO_CARDS; j++) {
-                    CommandCardField field = player.getCardField(j);
-                    if (field.getCard() == null) { // so it doesnt overwrite loaded cards
-                        field.setCard(generateRandomCommandCard());
+        if (!skipCardGen) {
+            for (int i = 0; i < board.getPlayersNumber(); i++) {
+                Player player = board.getPlayer(i);
+                if (player != null) {
+                    for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                        CommandCardField field = player.getProgramField(j);
+                        field.setCard(null);
+                        field.setVisible(true);
                     }
-                    field.setVisible(true);
+                    for (int j = 0; j < Player.NO_CARDS; j++) {
+                        CommandCardField field = player.getCardField(j);
+                        field.setCard(generateRandomCommandCard());
+                        field.setVisible(true);
+                    }
                 }
             }
         }
+
     }
 
     // XXX: V2
@@ -175,7 +178,7 @@ public class GameController {
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
-                        startProgrammingPhase();
+                        startProgrammingPhase(false);
                     }
                 }
             } else {
@@ -207,7 +210,7 @@ public class GameController {
                     board.setStep(step);
                     board.setCurrentPlayer(board.getPlayer(0));
                 } else {
-                    startProgrammingPhase();
+                    startProgrammingPhase(false);
                 }
             }
         }

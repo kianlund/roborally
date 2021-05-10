@@ -329,19 +329,46 @@ class Repository implements IRepository {
 				rs.updateInt(FIELD_POS,j);
 				rs.updateBoolean(FIELD_VISIBLE, cmdCardField.isVisible());
 
-				if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, TODO: make it sparkle
-					rs.updateInt(FIELD_COMMAND,0);
-				} else if (cmdCardField.getCard().command == Command.RIGHT) {
-					rs.updateInt(FIELD_COMMAND,1);
-				} else if (cmdCardField.getCard().command == Command.LEFT) {
-					rs.updateInt(FIELD_COMMAND,2);
-				} else if (cmdCardField.getCard().command == Command.FAST_FORWARD) {
-					rs.updateInt(FIELD_COMMAND,3);
-				} else if (cmdCardField.getCard().command == Command.OPTION_LEFT_RIGHT) {
-					rs.updateInt(FIELD_COMMAND,4);
+				if (cmdCardField.getCard() != null) {
+					if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, TODO: make it sparkle
+						rs.updateInt(FIELD_COMMAND,0);
+					} else if (cmdCardField.getCard().command == Command.RIGHT) {
+						rs.updateInt(FIELD_COMMAND,1);
+					} else if (cmdCardField.getCard().command == Command.LEFT) {
+						rs.updateInt(FIELD_COMMAND,2);
+					} else if (cmdCardField.getCard().command == Command.FAST_FORWARD) {
+						rs.updateInt(FIELD_COMMAND,3);
+					} else if (cmdCardField.getCard().command == Command.OPTION_LEFT_RIGHT) {
+						rs.updateInt(FIELD_COMMAND,4);
+					}
+					rs.insertRow();
 				}
-//				rs.updateObject(FIELD_COMMAND,cmdCardField.getCard());
-				rs.insertRow();
+
+			}
+			for (int j = 0; j < 5; j++) { // 5 register cards
+				rs.moveToInsertRow();
+				CommandCardField cmdCardField = game.getPlayer(i).getProgramField(j);
+				rs.updateInt(FIELD_GAMEID, game.getGameId());
+				rs.updateInt(FIELD_PLAYERID, i);
+				rs.updateInt(FIELD_TYPE,FIELD_TYPE_REGISTER);
+				rs.updateInt(FIELD_POS,j);
+				rs.updateBoolean(FIELD_VISIBLE, cmdCardField.isVisible());
+
+				if (cmdCardField.getCard() != null) {
+					if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, TODO: make it sparkle
+						rs.updateInt(FIELD_COMMAND,0);
+					} else if (cmdCardField.getCard().command == Command.RIGHT) {
+						rs.updateInt(FIELD_COMMAND,1);
+					} else if (cmdCardField.getCard().command == Command.LEFT) {
+						rs.updateInt(FIELD_COMMAND,2);
+					} else if (cmdCardField.getCard().command == Command.FAST_FORWARD) {
+						rs.updateInt(FIELD_COMMAND,3);
+					} else if (cmdCardField.getCard().command == Command.OPTION_LEFT_RIGHT) {
+						rs.updateInt(FIELD_COMMAND,4);
+					}
+					rs.insertRow();
+				}
+
 			}
 		}
 		rs.close();
@@ -380,11 +407,11 @@ class Repository implements IRepository {
 		}
 		rs.close();
 	}
-	
+
 	private void updatePlayersInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersStatementU();
 		ps.setInt(1, game.getGameId());
-		
+
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
@@ -399,8 +426,20 @@ class Repository implements IRepository {
 			rs.updateRow();
 		}
 		rs.close();
-		
+
 		// TODO error handling/consistency check: check whether all players were updated
+	}
+
+	private void updatePlayerCardFields(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardFieldStatementU();
+		ps.setInt(1, game.getGameId());
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+
+			rs.updateRow();
+		}
+		rs.close();
 	}
 
 	private static final String SQL_INSERT_GAME =
