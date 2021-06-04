@@ -191,6 +191,8 @@ class Repository implements IRepository {
 			rs.close();
 
 			updatePlayersInDB(game);
+
+			updatePlayerCardFieldsInDB(game);
 			/* TOODO this method needs to be implemented first
 			updateCardFieldsInDB(game);
 			*/
@@ -341,8 +343,10 @@ class Repository implements IRepository {
 					} else if (cmdCardField.getCard().command == Command.OPTION_LEFT_RIGHT) {
 						rs.updateInt(FIELD_COMMAND,4);
 					}
-					rs.insertRow();
+				} else {
+					rs.updateInt(FIELD_COMMAND,-1);
 				}
+				rs.insertRow();
 
 			}
 			for (int j = 0; j < 5; j++) { // 5 register cards
@@ -366,17 +370,15 @@ class Repository implements IRepository {
 					} else if (cmdCardField.getCard().command == Command.OPTION_LEFT_RIGHT) {
 						rs.updateInt(FIELD_COMMAND,4);
 					}
-					rs.insertRow();
+				} else {
+					rs.updateInt(FIELD_COMMAND, -1);
 				}
+				rs.insertRow();
 
 			}
 		}
 		rs.close();
 	}
-
-//	private void createConveyerBeltsInDB(Board game) {
-//		for (int i = 0; i < Board.);
-//	}
 	
 	private void loadPlayersFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersASCStatement();
@@ -430,13 +432,55 @@ class Repository implements IRepository {
 		// TODO error handling/consistency check: check whether all players were updated
 	}
 
-	private void updatePlayerCardFields(Board game) throws SQLException {
+	private void updatePlayerCardFieldsInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardFieldStatementU();
 		ps.setInt(1, game.getGameId());
 
+		int tempPlayerID;
+		int tempCardFieldType;
+		int tempCardFieldPos;
+		Command tempCardFieldCmd;
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
+			tempPlayerID = rs.getInt(PLAYER_PLAYERID);
+			tempCardFieldPos = rs.getInt(FIELD_POS);
+			tempCardFieldType = rs.getInt(FIELD_TYPE);
 
+			if (tempCardFieldType == 0) {
+				if (game.getPlayer(tempPlayerID).getProgramField(tempCardFieldPos).getCard() != null) {
+					tempCardFieldCmd = game.getPlayer(tempPlayerID).getProgramField(tempCardFieldPos).getCard().command;
+					if (tempCardFieldCmd == Command.FORWARD) {
+						rs.updateInt(FIELD_COMMAND,0);
+					} else if (tempCardFieldCmd == Command.RIGHT) {
+						rs.updateInt(FIELD_COMMAND,1);
+					} else if (tempCardFieldCmd == Command.LEFT) {
+						rs.updateInt(FIELD_COMMAND,2);
+					} else if (tempCardFieldCmd == Command.FAST_FORWARD) {
+						rs.updateInt(FIELD_COMMAND,3);
+					} else if (tempCardFieldCmd == Command.OPTION_LEFT_RIGHT) {
+						rs.updateInt(FIELD_COMMAND,4);
+					}
+				} else {
+					rs.updateInt(FIELD_COMMAND,-1);
+				}
+			} else {
+				if (game.getPlayer(tempPlayerID).getCardField(tempCardFieldPos).getCard() != null) {
+					tempCardFieldCmd = game.getPlayer(tempPlayerID).getCardField(tempCardFieldPos).getCard().command;
+					if (tempCardFieldCmd == Command.FORWARD) {
+						rs.updateInt(FIELD_COMMAND,0);
+					} else if (tempCardFieldCmd == Command.RIGHT) {
+						rs.updateInt(FIELD_COMMAND,1);
+					} else if (tempCardFieldCmd == Command.LEFT) {
+						rs.updateInt(FIELD_COMMAND,2);
+					} else if (tempCardFieldCmd == Command.FAST_FORWARD) {
+						rs.updateInt(FIELD_COMMAND,3);
+					} else if (tempCardFieldCmd == Command.OPTION_LEFT_RIGHT) {
+						rs.updateInt(FIELD_COMMAND,4);
+					}
+				} else {
+					rs.updateInt(FIELD_COMMAND,-1);
+				}
+			}
 			rs.updateRow();
 		}
 		rs.close();
@@ -594,7 +638,7 @@ class Repository implements IRepository {
 			} else {
 				field = null;
 			}
-			if (field != null) {
+			if (field != null && rs.getInt(FIELD_COMMAND) != -1) {
 				field.setVisible(rs.getBoolean(FIELD_VISIBLE));
 				Command card = Command.values()[rs.getInt(FIELD_COMMAND)];
 				field.setCard(new CommandCard(card));
