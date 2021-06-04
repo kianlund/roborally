@@ -59,6 +59,8 @@ public class Board extends Subject {
 
     private int counter = 0;
 
+    private int numCheckpoints = 0;
+
     private boolean stepMode;
 
     public Board(int width, int height, @NotNull String boardName) {
@@ -264,6 +266,14 @@ public class Board extends Subject {
 
     public int getCounter() {
         return counter;
+    }
+
+    public void setCheckpoints(int input) {
+        this.numCheckpoints = input;
+    }
+
+    public int getCheckpoints() {
+        return numCheckpoints;
     }
 
     public void setBoardName(String name) {

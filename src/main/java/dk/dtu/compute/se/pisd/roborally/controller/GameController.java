@@ -65,7 +65,7 @@ public class GameController {
 
             currentPlayer.setSpace(space);
             board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-            board.setCounter(board.getCounter() + 1);
+            System.out.println(board.getCheckpoints());
         }
     }
 
@@ -275,7 +275,7 @@ public class GameController {
     }
 
     public void checkPlayerHasWon(Player player) {
-        if (player.getCheckpoint() == 3) {
+        if (player.getCheckpoint() == board.getCheckpoints()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Congratulations!");
             alert.setHeaderText(player.getName()+" has won the game!");
