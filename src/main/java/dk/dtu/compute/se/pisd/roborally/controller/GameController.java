@@ -25,7 +25,6 @@ import dk.dtu.compute.se.pisd.roborally.exceptions.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.components.FieldAction;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -277,7 +276,7 @@ public class GameController {
             alert.setTitle("Congratulations!");
             alert.setHeaderText(player.getName()+" has won the game!");
             alert.show();
-            board.setPhase(Phase.ENDOFGAME);
+            board.setPhase(Phase.END_OF_GAME);
         }
     }
 

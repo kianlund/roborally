@@ -52,7 +52,7 @@ public class Checkpoint extends FieldAction {
             return true;
         }
 
-        return false; // WHAT DO ABOUT DIS ?
+        return false; // WHAT DO ABOUT DIS ? -- IT WORKS!k
     }
 
 }

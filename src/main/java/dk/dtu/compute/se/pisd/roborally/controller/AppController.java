@@ -129,7 +129,7 @@ public class AppController implements Observer {
                 break;
             }
         }
-        if (foundIDMatch == true) {
+        if (foundIDMatch) {
             repo.updateGameInDB(gameController.board);
         } else {
             repo.createGameInDB(gameController.board);
@@ -200,13 +200,6 @@ public class AppController implements Observer {
         if (gameController == null || stopGame()) {
             Platform.exit();
         }
-    }
-
-    public void selectBoard() {
-        if (gameController != null) {
-
-        }
-
     }
 
     public boolean isGameRunning() {
