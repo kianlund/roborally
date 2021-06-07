@@ -112,7 +112,7 @@ public class AppController implements Observer {
 
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
-            gameController.startProgrammingPhase();
+            gameController.startProgrammingPhase(false);
 
             roboRally.createBoardView(gameController);
         }
@@ -153,7 +153,7 @@ public class AppController implements Observer {
             Board loadedBoard = repo.loadGameFromDB(result.get());
 
             gameController = new GameController(loadedBoard);
-            gameController.startProgrammingPhase();
+            gameController.startProgrammingPhase(true);
             roboRally.createBoardView(gameController);
         }
 
