@@ -52,7 +52,8 @@ class Connector {
 		if (connector == null) connector = new Connector();
 		return connector;
 	}
-        
+
+
     private Connector() {
         try {
 			// String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE;
@@ -84,14 +85,17 @@ class Connector {
     		connection.commit();
     	} catch (SQLException e) {
     		e.printStackTrace();
-    		// TODO error handling
     		try {
 				connection.rollback();
-			} catch (SQLException e1) {}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
     	} finally {
 			try {
 				connection.setAutoCommit(true);
-			} catch (SQLException e) {}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
     }
     

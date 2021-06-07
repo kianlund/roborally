@@ -31,7 +31,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -49,14 +48,7 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
-        // TODO Assignment V1: method should be implemented by the students:
-        //   - the current player should be moved to the given space
-        //     (if it is free()
-        //   - and the current player should be set to the player
-        //     following the current player
-        //   - the counter of moves in the game should be increased by one
-        //     if the player is moved
+    public void moveCurrentPlayerToSpace(@NotNull Space space) {
         if (space.getPlayer() == null) {
             Player currentPlayer = board.getCurrentPlayer();
             int currentPlayerNumber = board.getPlayerNumber(currentPlayer);
@@ -160,7 +152,7 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
-                    if (command.isInteractive()){
+                    if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
                         return;
                     }
@@ -193,10 +185,10 @@ public class GameController {
     public void executeCommandOptionAndContinue(@NotNull Command option) {
         Player currentPlayer = board.getCurrentPlayer();
         if (currentPlayer != null &&
-             board.getPhase() == Phase.PLAYER_INTERACTION &&
+                board.getPhase() == Phase.PLAYER_INTERACTION &&
                 option != null) {
             board.setPhase(Phase.ACTIVATION);
-             executeCommand(currentPlayer, option);
+            executeCommand(currentPlayer, option);
 
             int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
             if (nextPlayerNumber < board.getPlayersNumber()) {
@@ -214,6 +206,7 @@ public class GameController {
             }
         }
     }
+
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
@@ -247,28 +240,26 @@ public class GameController {
 
     public void executeFieldActions() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
-            FieldAction fieldAction = null;
-            if (!(board.getPlayer(i).getSpace().getActions().isEmpty())){
-                fieldAction = board.getPlayer(i).getSpace().getActions().get(0); // TODO: Loop for every fieldaction
-                fieldAction.doAction(this,board.getPlayer(i).getSpace());
+            for (FieldAction fieldAction : board.getPlayer(i).getSpace().getActions()) {
+                fieldAction.doAction(this, board.getPlayer(i).getSpace());
             }
         }
     }
 
-    public void moveToSpace (@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
+    public void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         Player other = space.getPlayer();
-        if (other != null){
+        if (other != null) {
             Space target = board.getNeighbour(space, heading);
             if (target != null) {
                 moveToSpace(other, target, heading);
-            }else {
+            } else {
                 throw new ImpossibleMoveException(player, space, heading);
             }
         }
         player.setSpace(space);
     }
 
-    public void incrementPlayerCheckpoint(Player player){
+    public void incrementPlayerCheckpoint(Player player) {
         player.setCheckpoint(player.getCheckpoint() + 1);
         checkPlayerHasWon(player);
     }
@@ -277,24 +268,24 @@ public class GameController {
         if (player.getCheckpoint() == board.getCheckpoints()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Congratulations!");
-            alert.setHeaderText(player.getName()+" has won the game!");
+            alert.setHeaderText(player.getName() + " has won the game!");
             alert.show();
             board.setPhase(Phase.END_OF_GAME);
         }
     }
 
-    // TODO Assignment V2
+
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
             Heading heading = player.getHeading();
             Space target = board.getNeighbour(space, heading);
 
-
             if (target != null) {
                 try {
                     moveToSpace(player, target, heading);
                 } catch (ImpossibleMoveException e) {
+                    e.printStackTrace();
                 }
             }
         }

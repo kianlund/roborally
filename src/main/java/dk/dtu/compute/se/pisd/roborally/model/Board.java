@@ -246,19 +246,8 @@ public class Board extends Subject {
         // the students, this method gives a string representation of the current
         // status of the game
 
-        // TODO Assignment V1: this string could eventually be refined
-        //      The status line should show more information based on
-        //      situation; for now, introduce a counter to the Board,
-        //      which is counted up every time a player makes a move; the
-        //      status line should show the current player and the number
-        //      of the current move!
         return "Player = " + getCurrentPlayer().getName() + " Current checkpoint reached " + current.getCheckpoint();
     }
-
-    // TODO Assignment V1: add a counter along with a getter and a setter, so the
-    //      state the board (game) contains the number of moves, which then can
-    //      be used to extend the status message including the number of
-
 
     public void setCounter(int counter) {
         this.counter = counter;

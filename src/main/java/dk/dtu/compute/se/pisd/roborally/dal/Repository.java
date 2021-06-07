@@ -142,7 +142,7 @@ class Repository implements IRepository {
 					rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 					rs.updateRow();
 				} else {
-					// TODO error handling
+					throw new SQLException("did not receive new ID for game");
 				}
 				rs.close();
 
@@ -150,7 +150,6 @@ class Repository implements IRepository {
 				connection.setAutoCommit(true);
 				return true;
 			} catch (SQLException e) {
-				// TODO error handling
 				e.printStackTrace();
 				System.err.println("Some DB error");
 				
@@ -158,7 +157,6 @@ class Repository implements IRepository {
 					connection.rollback();
 					connection.setAutoCommit(true);
 				} catch (SQLException e1) {
-					// TODO error handling
 					e1.printStackTrace();
 				}
 			}
@@ -186,7 +184,7 @@ class Repository implements IRepository {
 				rs.updateInt(GAME_STEP, game.getStep());
 				rs.updateRow();
 			} else {
-				// TODO error handling
+				throw new SQLException("Update failed, no game with ID: " + game.getGameId() + " to update");
 			}
 			rs.close();
 
@@ -201,7 +199,6 @@ class Repository implements IRepository {
             connection.setAutoCommit(true);
 			return true;
 		} catch (SQLException e) {
-			// TODO error handling
 			e.printStackTrace();
 			System.err.println("Some DB error");
 			
@@ -209,7 +206,6 @@ class Repository implements IRepository {
 				connection.rollback();
 				connection.setAutoCommit(true);
 			} catch (SQLException e1) {
-				// TODO error handling
 				e1.printStackTrace();
 			}
 		}
@@ -221,9 +217,6 @@ class Repository implements IRepository {
 	public Board loadGameFromDB(int id) {
 		Board game;
 		try {
-			// TODO here, we could actually use a simpler statement
-			//      which is not updatable, but reuse the one from
-			//      above for the purpose
 			PreparedStatement ps = getSelectGameStatementU();
 			ps.setInt(1, id);
 			
@@ -231,10 +224,10 @@ class Repository implements IRepository {
 			int playerNo = -1;
 			if (rs.next()) {
 				// TODO the width and height could eventually come from the database
-				// int width = AppController.BOARD_WIDTH;
-				// int height = AppController.BOARD_HEIGHT;
-				// game = new Board(width,height);
-				// TODO and we should also store the used game board in the database
+				// 	int width = AppController.BOARD_WIDTH;
+				// 	int height = AppController.BOARD_HEIGHT;
+				// 	game = new Board(width,height);
+				// 	and we should also store the used game board in the database
 				//      for now, we use the default game board
 				game = LoadBoard.loadBoard(rs.getString(GAME_BOARDNAME));
 				if (game == null) {
@@ -264,7 +257,6 @@ class Repository implements IRepository {
 
 			return game;
 		} catch (SQLException e) {
-			// TODO error handling
 			e.printStackTrace();
 			System.err.println("Some DB error");
 		}
@@ -288,14 +280,13 @@ class Repository implements IRepository {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			// TODO proper error handling
 			e.printStackTrace();
 		}
 		return result;		
 	}
 
 	private void createPlayersInDB(Board game) throws SQLException {
-		// TODO code should be more defensive
+		// If we had the proper time, this code should be more defensive
 		PreparedStatement ps = getSelectPlayersStatementU();
 		ps.setInt(1, game.getGameId());
 
@@ -332,7 +323,7 @@ class Repository implements IRepository {
 				rs.updateBoolean(FIELD_VISIBLE, cmdCardField.isVisible());
 
 				if (cmdCardField.getCard() != null) {
-					if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, TODO: make it sparkle
+					if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, we should make it sparkle
 						rs.updateInt(FIELD_COMMAND,0);
 					} else if (cmdCardField.getCard().command == Command.RIGHT) {
 						rs.updateInt(FIELD_COMMAND,1);
@@ -359,7 +350,7 @@ class Repository implements IRepository {
 				rs.updateBoolean(FIELD_VISIBLE, cmdCardField.isVisible());
 
 				if (cmdCardField.getCard() != null) {
-					if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, TODO: make it sparkle
+					if (cmdCardField.getCard().command == Command.FORWARD) { // ugly code, we should make it sparkle
 						rs.updateInt(FIELD_COMMAND,0);
 					} else if (cmdCardField.getCard().command == Command.RIGHT) {
 						rs.updateInt(FIELD_COMMAND,1);
@@ -389,7 +380,7 @@ class Repository implements IRepository {
 		while (rs.next()) {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
 			if (i++ == playerId) {
-				// TODO this should be more defensive
+				// With proper time, this code should be more defensive
 				String name = rs.getString(PLAYER_NAME);
 				String colour = rs.getString(PLAYER_COLOUR);
 				Player player = new Player(game, colour ,name);
@@ -401,9 +392,8 @@ class Repository implements IRepository {
 				int heading = rs.getInt(PLAYER_HEADING);
 				player.setHeading(Heading.values()[heading]);
 
-				// TODO  should also load players program and hand here
+				// TODO should also load players program and hand here
 			} else {
-				// TODO error handling
 				System.err.println("Game in DB does not have a player with id " + i +"!");
 			}
 		}
@@ -417,7 +407,7 @@ class Repository implements IRepository {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
-			// TODO should be more defensive
+			// With enough time, this code should be more defensive
 			Player player = game.getPlayer(playerId);
 			// rs.updateString(PLAYER_NAME, player.getName()); // not needed: player's names does not change
 			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
@@ -499,7 +489,6 @@ class Repository implements IRepository {
 						SQL_INSERT_GAME,
 						Statement.RETURN_GENERATED_KEYS);
 			} catch (SQLException e) {
-				// TODO error handling
 				e.printStackTrace();
 			}
 		}
@@ -520,7 +509,6 @@ class Repository implements IRepository {
 						ResultSet.TYPE_FORWARD_ONLY,
 					    ResultSet.CONCUR_UPDATABLE);
 			} catch (SQLException e) {
-				// TODO error handling
 				e.printStackTrace();
 			}
 		}
@@ -541,7 +529,6 @@ class Repository implements IRepository {
 						ResultSet.TYPE_FORWARD_ONLY,
 						ResultSet.CONCUR_UPDATABLE);
 			} catch (SQLException e) {
-				// TODO error handling
 				e.printStackTrace();
 			}
 		}
@@ -561,7 +548,6 @@ class Repository implements IRepository {
 				select_players_asc_stmt = connection.prepareStatement(
 						SQL_SELECT_PLAYERS_ASC);
 			} catch (SQLException e) {
-				// TODO error handling
 				e.printStackTrace();
 			}
 		}
@@ -580,7 +566,6 @@ class Repository implements IRepository {
 				select_games_stmt = connection.prepareStatement(
 						SQL_SELECT_GAMES);
 			} catch (SQLException e) {
-				// TODO error handling
 				e.printStackTrace();
 			}
 		}

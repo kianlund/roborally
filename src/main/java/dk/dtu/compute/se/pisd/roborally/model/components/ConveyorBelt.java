@@ -47,7 +47,6 @@ public class ConveyorBelt extends FieldAction {
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-        // TODO needs to be implemented
         Space target = gameController.board.getNeighbour(space,heading);
         try {
             gameController.moveToSpace(space.getPlayer(),target,heading);

@@ -120,15 +120,18 @@ public class AppController implements Observer {
     private IRepository repo = RepositoryAccess.getRepository();
     public void saveGame() {
         Boolean foundIDMatch = false;
+        if (gameController.board.getGameId() == null) {
+            repo.createGameInDB(gameController.board);
+            return;
+        }
+
         for (int i = 0; i < repo.getGames().size(); i++) {
-            if (gameController.board.getGameId() == null) {
-                break;
-            }
             if (gameController.board.getGameId() == repo.getGames().get(i).id) {
                 foundIDMatch = true;
                 break;
             }
         }
+
         if (foundIDMatch) {
             repo.updateGameInDB(gameController.board);
         } else {
@@ -139,9 +142,11 @@ public class AppController implements Observer {
     public void loadGame() {
         ArrayList<String> gamesListNames = new ArrayList<String>();
         ArrayList<Integer> gamesListID = new ArrayList<Integer>();
-        for (int i = 0; i < repo.getGames().size(); i++) {
-            gamesListNames.add(repo.getGames().get(i).name);
-            gamesListID.add(repo.getGames().get(i).id);
+        List<GameInDB> games = repo.getGames();
+
+        for (GameInDB game : games) {
+            gamesListNames.add(game.name);
+            gamesListID.add(game.id);
         }
 
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(gamesListID.get(0), gamesListID);
