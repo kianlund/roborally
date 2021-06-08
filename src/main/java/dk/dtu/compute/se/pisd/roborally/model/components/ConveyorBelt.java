@@ -33,14 +33,18 @@ import org.jetbrains.annotations.NotNull;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
+
+/**
+ *
+ * Conveyor Belt has a heading with appropriate getters and setters and an action that calls on gamecontroller.
+ * @return true/false if move is successful
+ *
+ */
 public class ConveyorBelt extends FieldAction {
 
     private Heading heading;
 
-    public Heading getHeading() {
-        return heading;
-    }
-
+    public Heading getHeading() { return heading; }
     public void setHeading(Heading heading) {
         this.heading = heading;
     }
