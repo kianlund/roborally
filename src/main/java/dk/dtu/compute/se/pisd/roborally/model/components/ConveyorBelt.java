@@ -36,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  *
- * Conveyor Belt has a heading with appropraite getters and setters and an action that calls on gamecontroller.
+ * Conveyor Belt has a heading with appropriate getters and setters and an action that calls on gamecontroller.
  * @return true/false if move is successful
  *
  */
