@@ -31,19 +31,19 @@ import org.jetbrains.annotations.NotNull;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
+
+/**
+ *
+ * Contains a number that defines the checkpoint, with getters/setters.
+ * @return true/false if player checkpoint counter is incremented or not.
+ *
+ */
 public class Checkpoint extends FieldAction {
 
     private int number;
 
-    public void setNumber(int num) {
-
-        this.number = num;
-    }
-
-    public int getNumber() {
-
-        return number;
-    }
+    public void setNumber(int num) { this.number = num; }
+    public int getNumber() { return number; }
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
@@ -52,7 +52,7 @@ public class Checkpoint extends FieldAction {
             return true;
         }
 
-        return false; // WHAT DO ABOUT DIS ? -- IT WORKS!k
+        return false;
     }
 
 }

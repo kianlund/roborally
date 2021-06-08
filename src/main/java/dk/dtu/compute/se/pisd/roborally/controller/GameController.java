@@ -235,7 +235,9 @@ public class GameController {
 
 
     /**
-     * Tjekker pt. kun spaces som spillerne står på.
+     *
+     * Runs the doAction method from fieldActions players are standing on in order from player 1 to 6.
+     *
      */
 
     public void executeFieldActions() {
@@ -245,6 +247,14 @@ public class GameController {
             }
         }
     }
+
+    /**
+     * Tries to move a player. Check recursively whether or not the moves are possible in case of pushing.
+     * @param player to be moved
+     * @param space
+     * @param heading of the player
+     * @throws ImpossibleMoveException if move is impossible
+     */
 
     public void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         Player other = space.getPlayer();
@@ -259,11 +269,23 @@ public class GameController {
         player.setSpace(space);
     }
 
+    /**
+     * Very simple command to increase a players checkpoint counter. Follows up with checkPlayerHasWon() in case game
+     * game is about to end.
+     * @param player to have their counter increased.
+     */
     public void incrementPlayerCheckpoint(Player player) {
         player.setCheckpoint(player.getCheckpoint() + 1);
         checkPlayerHasWon(player);
     }
 
+    /**
+     *
+     * Check if the player has reached the necessary number of checkpoints from the given board, if yes then end game
+     * and declare that player the winner. Currently ends the game by changing phase, this causes the game to "freeze"
+     * @param player to check.
+     *
+     */
     public void checkPlayerHasWon(Player player) {
         if (player.getCheckpoint() == board.getCheckpoints()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -274,7 +296,11 @@ public class GameController {
         }
     }
 
-
+    /**
+     * Moves a player one space forward and pushes other players if possible. Will wrap around the map if player moves
+     * out of bounds.
+     * @param player to be moved.
+     */
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
