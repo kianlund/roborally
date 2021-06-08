@@ -139,6 +139,10 @@ public class AppController implements Observer {
         }
     }
 
+    /**
+     * Makes two lists of games that can be loaded. One list with game IDs and one with names(to be implemented) then
+     * shows players a dropdown menu with a list of games.
+     */
     public void loadGame() {
         ArrayList<String> gamesListNames = new ArrayList<String>();
         ArrayList<Integer> gamesListID = new ArrayList<Integer>();

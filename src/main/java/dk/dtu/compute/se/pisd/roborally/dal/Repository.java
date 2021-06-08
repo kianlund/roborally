@@ -307,6 +307,13 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Loops through all card slots from every player and saves them to the DB. Empty cardfields are saved as -1 under
+	 * the command column.
+	 * @param game to have its cards saved in the DB.
+	 * @throws SQLException
+	 */
+
 	private void createCardFieldsInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardFieldStatementU();
 		ps.setInt(1, game.getGameId());
@@ -421,6 +428,12 @@ class Repository implements IRepository {
 
 		// TODO error handling/consistency check: check whether all players were updated
 	}
+
+	/**
+	 * Goes through every saved card slot and updates accordingly.
+	 * @param game . Current game, and game to be updated.
+	 * @throws SQLException
+	 */
 
 	private void updatePlayerCardFieldsInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardFieldStatementU();
@@ -603,7 +616,6 @@ class Repository implements IRepository {
 		}
 		return select_card_field_stat_u;
 	}
-
 
 	private void loadCardFieldFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardFieldStatement();
