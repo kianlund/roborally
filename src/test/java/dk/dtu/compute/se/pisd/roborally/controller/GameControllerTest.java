@@ -1,5 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.mysql.cj.protocol.x.XMessage;
+import dk.dtu.compute.se.pisd.roborally.exceptions.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -75,6 +77,20 @@ class GameControllerTest {
     }
 
     @Test
+    void MoveToSpace() throws ImpossibleMoveException {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+
+        current.setSpace(board.getSpace(0, 4));
+        current.setHeading(Heading.SOUTH);
+
+        gameController.moveToSpace(current, board.getSpace(0,5), Heading.SOUTH);
+
+        Assertions.assertEquals(board.getSpace(0,5), current.getSpace());
+        Assertions.assertEquals(Heading.SOUTH,current.getHeading());
+    }
+
+    @Test
     void moveForward() {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();
@@ -90,6 +106,15 @@ class GameControllerTest {
 
     @Test
     void fastForward() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+
+        current.setSpace(board.getSpace(2, 3));
+        current.setHeading(Heading.SOUTH);
+
+        gameController.fastForward(current);
+
+        Assertions.assertEquals(board.getSpace(2,5),current.getSpace());
         
     }
 
