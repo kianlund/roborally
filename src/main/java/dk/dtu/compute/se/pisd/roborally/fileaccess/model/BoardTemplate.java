@@ -31,6 +31,10 @@ import java.util.List;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
+
+/**
+ * updated to include checkpoint number per map/board
+ */
 public class BoardTemplate {
 
     public int width;

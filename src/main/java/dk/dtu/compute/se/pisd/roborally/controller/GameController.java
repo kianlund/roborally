@@ -60,7 +60,10 @@ public class GameController {
         }
     }
 
-    // XXX: V2
+    /**
+     * Has been edited a bit and now offers the param skipCardGen to avoid generating new cards on game load.
+     * @param skipCardGen should be true if loading a game.
+     */
     public void startProgrammingPhase(boolean skipCardGen) {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -143,7 +146,9 @@ public class GameController {
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
-    // XXX: V2
+    /**
+     * executeFieldActions has been added to on line 171. This accomplishes executing field actions after a step.
+     */
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -182,6 +187,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Part of the interactive card. Executes command choice and then returns to activation phase.
+     * @param option is the chosen command (left or right)
+     */
     public void executeCommandOptionAndContinue(@NotNull Command option) {
         Player currentPlayer = board.getCurrentPlayer();
         if (currentPlayer != null &&
@@ -251,7 +260,7 @@ public class GameController {
     /**
      * Tries to move a player. Check recursively whether or not the moves are possible in case of pushing.
      * @param player to be moved
-     * @param space
+     * @param space to move to
      * @param heading of the player
      * @throws ImpossibleMoveException if move is impossible
      */

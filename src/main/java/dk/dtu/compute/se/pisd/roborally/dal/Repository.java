@@ -431,7 +431,7 @@ class Repository implements IRepository {
 
 	/**
 	 * Goes through every saved card slot and updates accordingly.
-	 * @param game . Current game, and game to be updated.
+	 * @param game to be updated.
 	 * @throws SQLException
 	 */
 
@@ -617,21 +617,26 @@ class Repository implements IRepository {
 		return select_card_field_stat_u;
 	}
 
-	private void loadCardFieldFromDB(Board game) throws SQLException {
+	/**
+	 * Loads cardfields from the database unless the command is saved as -1 in which case the cardfield is empty.
+	 * @param board to write cards to.
+	 * @throws SQLException
+	 */
+	private void loadCardFieldFromDB(Board board) throws SQLException {
 		PreparedStatement ps = getSelectCardFieldStatement();
-		ps.setInt(1, game.getGameId());
+		ps.setInt(1, board.getGameId());
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			int playerID = rs.getInt(FIELD_PLAYERID);
-			Player player = game.getPlayer(playerID);
 			int type = rs.getInt(FIELD_TYPE);
-			int pos = rs.getInt(FIELD_POS);
+			int position = rs.getInt(FIELD_POS);
+			Player player = board.getPlayer(playerID);
 			CommandCardField field;
 			if (type == FIELD_TYPE_REGISTER) {
-				field = player.getProgramField(pos);
+				field = player.getProgramField(position);
 			} else if (type == FIELD_TYPE_RAND) {
-				field = player.getCardField(pos);
+				field = player.getCardField(position);
 			} else {
 				field = null;
 			}
