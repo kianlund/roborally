@@ -28,9 +28,11 @@ import dk.dtu.compute.se.pisd.roborally.model.components.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.components.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.components.Gear;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -113,6 +115,12 @@ public class SpaceView extends StackPane implements ViewObserver {
                     40.0, 0.0 );
             shape.setFill(Color.LIGHTGREY);
             shape.setRotate((90*((ConveyorBelt) fieldaction).getHeading().ordinal())%360);
+
+            this.getChildren().add(shape);
+        }
+        if (fieldaction instanceof Gear) {
+            Circle shape = new Circle(25,25,20);
+            shape.setFill(Color.BROWN);
 
             this.getChildren().add(shape);
         }
