@@ -230,6 +230,7 @@ class Repository implements IRepository {
 				// 	and we should also store the used game board in the database
 				//      for now, we use the default game board
 				game = LoadBoard.loadBoard(rs.getString(GAME_BOARDNAME));
+				System.out.println("test");
 				if (game == null) {
 					return null;
 				}

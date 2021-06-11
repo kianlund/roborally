@@ -56,33 +56,25 @@ public class GameController {
 
             currentPlayer.setSpace(space);
             board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-            System.out.println(board.getCheckpoints());
         }
     }
 
-    /**
-     * Has been edited a bit and now offers the param skipCardGen to avoid generating new cards on game load.
-     * @param skipCardGen should be true if loading a game.
-     */
-    public void startProgrammingPhase(boolean skipCardGen) {
+    public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
-
-        if (!skipCardGen) {
-            for (int i = 0; i < board.getPlayersNumber(); i++) {
-                Player player = board.getPlayer(i);
-                if (player != null) {
-                    for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                        CommandCardField field = player.getProgramField(j);
-                        field.setCard(null);
-                        field.setVisible(true);
-                    }
-                    for (int j = 0; j < Player.NO_CARDS; j++) {
-                        CommandCardField field = player.getCardField(j);
-                        field.setCard(generateRandomCommandCard());
-                        field.setVisible(true);
-                    }
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            if (player != null) {
+                for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                    CommandCardField field = player.getProgramField(j);
+                    field.setCard(null);
+                    field.setVisible(true);
+                }
+                for (int j = 0; j < Player.NO_CARDS; j++) {
+                    CommandCardField field = player.getCardField(j);
+                    field.setCard(generateRandomCommandCard());
+                    field.setVisible(true);
                 }
             }
         }
@@ -174,7 +166,7 @@ public class GameController {
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
-                        startProgrammingPhase(false);
+                        startProgrammingPhase();
                     }
                 }
             } else {
@@ -210,7 +202,7 @@ public class GameController {
                     board.setStep(step);
                     board.setCurrentPlayer(board.getPlayer(0));
                 } else {
-                    startProgrammingPhase(false);
+                    startProgrammingPhase();
                 }
             }
         }
